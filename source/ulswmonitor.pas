@@ -39,22 +39,28 @@ type
     Button1: TButton;
     Button2: TButton;
     Button3: TButton;
+    Button4: TButton;
     LazSerial1: TLazSerial;
     Memo1: TMemo;
     StatusBar1: TStatusBar;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
-    procedure FormHide(Sender: TObject);
-    procedure FormShow(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure LazSerial1RxData(Sender: TObject);
     procedure LazSerial1Status(Sender: TObject; Reason: THookSerialReason;
       const Value: string);
   private
     { private declarations }
+    FOpened: boolean;
+    procedure ActivateMonitor(const AActive: boolean);
+    procedure SetOpened(AValue: boolean);
+    procedure LogIDEMEssage(const AMessage: string);
   public
     { public declarations }
-    procedure SerialActive(const AActive: boolean);
+    procedure RequestActivateMonitor(const AActive: boolean);
+    property Opened: boolean read FOpened write SetOpened;
   end;
 
 var
@@ -67,11 +73,15 @@ procedure Register;
 
 implementation
 
+uses
+  IDEMsgIntf, IDEExternToolIntf;
+
 {$R *.lfm}
 
 procedure ShowSerialMonitor(Sender: TObject);
 begin
   IDEWindowCreators.ShowForm(SerialMonitorCreator.FormName, True);
+  SerialMonitor.Opened := True;
 end;
 
 procedure CreateSerialMonitor(Sender: TObject; aFormName: string;
@@ -88,6 +98,7 @@ begin
     LazarusIDE.OwningComponent);
   AForm.Name := aFormName;
   SerialMonitor := AForm as TSerialMonitor;
+  SerialMonitor.Opened := False;
 end;
 
 procedure Register;
@@ -132,6 +143,53 @@ begin
   StatusBar1.SimpleText := Value;
 end;
 
+procedure TSerialMonitor.ActivateMonitor(const AActive: boolean);
+begin
+  if AActive then
+  begin
+    try
+      LogIDEMEssage('Serial Monitor: Opening');
+      LazSerial1.Open;
+      LogIDEMEssage('Serial Monitor: Opened');
+      Button2.Enabled := False;
+      Button3.Enabled := True;
+    except
+      on e: Exception do
+        LogIDEMEssage('Serial Monitor: ' + e.Message);
+    end;
+  end
+  else
+  begin
+    try
+      LogIDEMEssage('Serial Monitor: Closing');
+      LazSerial1.Close;
+      LogIDEMEssage('Serial Monitor: Closed');
+      Button2.Enabled := True;
+      Button3.Enabled := False;
+    except
+      on e: Exception do
+        LogIDEMEssage('Serial Monitor: ' + e.Message);
+    end;
+  end;
+end;
+
+procedure TSerialMonitor.SetOpened(AValue: boolean);
+begin
+  if FOpened = AValue then
+    Exit;
+  FOpened := AValue;
+end;
+
+procedure TSerialMonitor.LogIDEMEssage(const AMessage: string);
+var
+  lazMessages: TIDEMessagesWindowInterface;
+begin
+  lazMessages := IDEMessagesWindow;
+  if lazMessages = nil then
+    exit;
+  lazMessages.AddCustomMessage(mluProgress, AMessage);
+end;
+
 procedure TSerialMonitor.Button1Click(Sender: TObject);
 begin
   LazSerial1.ShowSetupDialog;
@@ -139,40 +197,34 @@ end;
 
 procedure TSerialMonitor.Button2Click(Sender: TObject);
 begin
-  SerialActive(True);
+  ActivateMonitor(True);
 end;
 
 procedure TSerialMonitor.Button3Click(Sender: TObject);
 begin
-  SerialActive(False);
+  ActivateMonitor(False);
 end;
 
-procedure TSerialMonitor.FormHide(Sender: TObject);
+procedure TSerialMonitor.Button4Click(Sender: TObject);
 begin
-  SerialActive(False);
-  //LazSerial1.Active := False;
+  Memo1.Clear;
 end;
 
-procedure TSerialMonitor.FormShow(Sender: TObject);
+procedure TSerialMonitor.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  //LazSerial1.Active := True;
+  ActivateMonitor(False);
+  FOpened := False;
 end;
 
-procedure TSerialMonitor.SerialActive(const AActive: boolean);
+procedure TSerialMonitor.RequestActivateMonitor(const AActive: boolean);
 begin
-  if Self.Showing then
-    if AActive then
-    begin
-      LazSerial1.Open;
-      Button2.Enabled := False;
-      Button3.Enabled := True;
-    end
-    else
-    begin
-      LazSerial1.Close;
-      Button2.Enabled := True;
-      Button3.Enabled := False;
-    end;
+  try
+    if Visible then
+      ActivateMonitor(AActive);
+  except
+    on e: Exception do
+      LogIDEMEssage('Serial Monitor: ' + e.Message);
+  end;
 end;
 
 end.

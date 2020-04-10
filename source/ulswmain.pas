@@ -27,7 +27,7 @@ unit uLSWMain;
 interface
 
 uses
-  Classes, SysUtils, LazIDEIntf, UITypes;
+  Classes, SysUtils, UITypes;
 
 type
 
@@ -35,8 +35,6 @@ type
 
   TLSW = class(TObject)
   private
-    FRWD: boolean;
-    procedure LogIDEMEssage(const AMessage: string);
     procedure DoOpen;
     procedure DoClose;
   public
@@ -48,55 +46,35 @@ type
 implementation
 
 uses
-  IDEExternToolIntf, IDEMsgIntf, uLSWMonitor;
+  uLSWMonitor;
 
 { TLSW }
-
-procedure TLSW.LogIDEMEssage(const AMessage: string);
-var
-  lazMessages: TIDEMessagesWindowInterface;
-begin
-  lazMessages := IDEMessagesWindow;
-  if lazMessages = nil then
-    exit;
-  lazMessages.AddCustomMessage(mluProgress, AMessage);
-end;
 
 function TLSW.RunHandler(Sender: TObject; var Handled: boolean): TModalResult;
 begin
   DoClose;
-  FRWD := True;
-  LazarusIDE.RemoveHandlerOnRunDebug(@Self.RunHandler);
-  LazarusIDE.DoCallRunDebug(Handled);
 end;
 
 function TLSW.RunNoDebugHandler(Sender: TObject; var Handled: boolean): TModalResult;
 begin
   DoClose;
-  FRWD := False;
-  LazarusIDE.RemoveHandlerOnRunWithoutDebugInit(@Self.RunNoDebugHandler);
-  LazarusIDE.DoCallRunWithoutDebugInit(Handled);
 end;
 
 procedure TLSW.StopHandler(Sender: TObject);
 begin
   DoOpen;
-  if FRWD then
-    LazarusIDE.AddHandlerOnRunDebug(@Self.RunHandler)
-  else
-    LazarusIDE.AddHandlerOnRunWithoutDebugInit(@Self.RunNoDebugHandler);
 end;
 
 procedure TLSW.DoOpen;
 begin
-  LogIDEMEssage('Opening Serial Monitor');
-  SerialMonitor.SerialActive(True);
+  if Assigned(SerialMonitor) then
+    SerialMonitor.RequestActivateMonitor(True);
 end;
 
 procedure TLSW.DoClose;
 begin
-  LogIDEMEssage('Closing Serial Monitor');
-  SerialMonitor.SerialActive(False);
+  if Assigned(SerialMonitor) then
+    SerialMonitor.RequestActivateMonitor(False);
 end;
 
 end.
