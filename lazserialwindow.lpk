@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="5">
+    <PathDelim Value="\"/>
+    <Name Value="lazSerialWindow"/>
+    <Type Value="RunAndDesignTime"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Copyright (C) 2020 Dimitrios Chr. Ioannidis."/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="source"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)\$(LCLWidgetType)"/>
+      </SearchPaths>
+      <Other>
+        <CustomOptions Value="$(IDEBuildOptions)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="Intergrated Serial Monitor window. Disconnects from serial ports on run and reconnect after stop running."/>
+    <License Value="{
+
+  Serial Monitor Lazarus package.
+
+  Copyright (C) 2020 Dimitrios Chr. Ioannidis.
+    Nephelae - https://www.nephelae.eu
+
+  Licensed under the MIT License (MIT).
+  See licence file in root directory.
+
+  THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF
+  ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+  TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+  PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+  SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
+  ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+  ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+  OTHER DEALINGS IN THE SOFTWARE.
+
+} "/>
+    <Version Minor="1"/>
+    <Files>
+      <Item>
+        <Filename Value="source\ulswmain.pas"/>
+        <UnitName Value="uLSWMain"/>
+      </Item>
+      <Item>
+        <Filename Value="source\ulswregister.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uLSWRegister"/>
+      </Item>
+      <Item>
+        <Filename Value="source\ulswmonitor.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ulswmonitor"/>
+      </Item>
+    </Files>
+    <RequiredPkgs>
+      <Item>
+        <PackageName Value="LazSerialPort"/>
+        <MinVersion Minor="2" Valid="True"/>
+      </Item>
+      <Item>
+        <PackageName Value="IDEIntf"/>
+      </Item>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

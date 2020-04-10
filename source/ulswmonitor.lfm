@@ -1,0 +1,73 @@
+object SerialMonitor: TSerialMonitor
+  Left = 200
+  Height = 320
+  Top = 100
+  Width = 689
+  Caption = 'SerialMonitor'
+  ClientHeight = 320
+  ClientWidth = 689
+  OnHide = FormHide
+  OnShow = FormShow
+  LCLVersion = '2.1.0.0'
+  object Memo1: TMemo
+    Left = 0
+    Height = 240
+    Top = 0
+    Width = 689
+    Align = alTop
+    Lines.Strings = (
+      'Memo1'
+    )
+    ReadOnly = True
+    TabOrder = 0
+  end
+  object Button1: TButton
+    Left = 16
+    Height = 25
+    Top = 256
+    Width = 75
+    Caption = 'Setup ...'
+    OnClick = Button1Click
+    TabOrder = 1
+  end
+  object Button2: TButton
+    Left = 104
+    Height = 25
+    Top = 256
+    Width = 75
+    Caption = 'Open'
+    OnClick = Button2Click
+    TabOrder = 2
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 23
+    Top = 297
+    Width = 689
+    Panels = <>
+  end
+  object Button3: TButton
+    Left = 192
+    Height = 25
+    Top = 256
+    Width = 75
+    Caption = 'Close'
+    Enabled = False
+    OnClick = Button3Click
+    TabOrder = 4
+  end
+  object LazSerial1: TLazSerial
+    Active = True
+    BaudRate = br_57600
+    DataBits = db8bits
+    Parity = pNone
+    FlowControl = fcNone
+    StopBits = sbOne
+    Device = 'COM4'
+    RcvLineCRLF = False
+    OnRxData = LazSerial1RxData
+    OnStatus = LazSerial1Status
+    Left = 184
+    Top = 101
+  end
+end
