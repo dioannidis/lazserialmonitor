@@ -1,4 +1,6 @@
-# Intergrated Lazarus Serial Monitor window. 
+# Intergrated Lazarus Serial Monitor. 
 
- It's a proof of consept, for a window serial monitor conncting / disconnecting from the com ports regarding the project running state .
+ It's a proof of consept. 
+ 
+ A window serial monitor which is connecting / disconnecting from a com port regarding the lazarus IDE project running state . Disconnects from the com port when Lazarus runs or debugs a project and reconnects when the Lazarus IDE stop running / debugging a project .
 
