@@ -47,7 +47,7 @@ type
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure LazSerial1RxData(Sender: TObject);
     procedure LazSerial1Status(Sender: TObject; Reason: THookSerialReason;
       const Value: string);
@@ -210,7 +210,7 @@ begin
   Memo1.Clear;
 end;
 
-procedure TSerialMonitor.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TSerialMonitor.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
   ActivateMonitor(False);
   FOpened := False;
@@ -219,7 +219,7 @@ end;
 procedure TSerialMonitor.RequestActivateMonitor(const AActive: boolean);
 begin
   try
-    if Visible then
+    if FOpened then
       ActivateMonitor(AActive);
   except
     on e: Exception do

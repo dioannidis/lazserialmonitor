@@ -6,7 +6,7 @@ object SerialMonitor: TSerialMonitor
   Caption = 'SerialMonitor'
   ClientHeight = 320
   ClientWidth = 400
-  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   LCLVersion = '2.1.0.0'
   object Memo1: TMemo
     Left = 0
