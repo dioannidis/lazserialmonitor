@@ -14,6 +14,7 @@ object SerialMonitor: TSerialMonitor
     Top = 0
     Width = 400
     Align = alTop
+    Anchors = [akTop, akLeft, akRight, akBottom]
     Lines.Strings = (
       'Memo1'
     )
