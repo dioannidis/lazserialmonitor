@@ -41,6 +41,9 @@ type
     function RunHandler(Sender: TObject; var Handled: boolean): TModalResult;
     function RunNoDebugHandler(Sender: TObject; var Handled: boolean): TModalResult;
     procedure StopHandler(Sender: TObject);
+
+    function BuildHandler(Sender: TObject): TModalResult;
+    procedure BuildFinishedHandler(Sender: TObject; BuildSuccessful: Boolean);
   end;
 
 implementation
@@ -61,6 +64,17 @@ begin
 end;
 
 procedure TLSW.StopHandler(Sender: TObject);
+begin
+  DoOpen;
+end;
+
+function TLSW.BuildHandler(Sender: TObject): TModalResult;
+begin
+  DoClose;
+  Result := mrOK;
+end;
+
+procedure TLSW.BuildFinishedHandler(Sender: TObject; BuildSuccessful: Boolean);
 begin
   DoOpen;
 end;

@@ -44,7 +44,10 @@ begin
   // Run ( without or with debugger ) hooks
   LazarusIDE.AddHandlerOnRunDebug(@LSW.RunHandler);
   LazarusIDE.AddHandlerOnRunWithoutDebugInit(@LSW.RunNoDebugHandler);
-  LazarusIDE.AddHandlerOnRunFinished(@LSW.StopHandler, True);
+  LazarusIDE.AddHandlerOnRunFinished(@LSW.StopHandler);
+
+  LazarusIDE.AddHandlerOnProjectBuilding(@LSW.BuildHandler);
+  LazarusIDE.AddHandlerOnProjectBuildingFinished(@LSW.BuildFinishedHandler);
 end;
 
 initialization
