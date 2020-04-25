@@ -8,14 +8,14 @@ unit lazSerialWindow;
 interface
 
 uses
-  uLSWMain, uLSWRegister, uLSWMonitor, LazarusPackageIntf;
+  uLSWMain, uLSWMonitor, uLSWRegister, LazarusPackageIntf;
 
 implementation
 
 procedure Register;
 begin
-  RegisterUnit('uLSWRegister', @uLSWRegister.Register);
   RegisterUnit('uLSWMonitor', @uLSWMonitor.Register);
+  RegisterUnit('uLSWRegister', @uLSWRegister.Register);
 end;
 
 initialization

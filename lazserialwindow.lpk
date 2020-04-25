@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="5">
+  <Package Version="4">
     <PathDelim Value="\"/>
     <Name Value="lazSerialWindow"/>
     <Type Value="RunAndDesignTime"/>
@@ -40,30 +40,30 @@
 
 } "/>
     <Version Minor="1"/>
-    <Files>
-      <Item>
+    <Files Count="3">
+      <Item1>
         <Filename Value="source\ulswmain.pas"/>
         <UnitName Value="uLSWMain"/>
-      </Item>
-      <Item>
+      </Item1>
+      <Item2>
+        <Filename Value="source\ulswmonitor.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="uLSWMonitor"/>
+      </Item2>
+      <Item3>
         <Filename Value="source\ulswregister.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="uLSWRegister"/>
-      </Item>
-      <Item>
-        <Filename Value="source\ulswmonitor.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="ulswmonitor"/>
-      </Item>
+      </Item3>
     </Files>
-    <RequiredPkgs>
-      <Item>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="IDEIntf"/>
+      </Item1>
+      <Item2>
         <PackageName Value="LazSerialPort"/>
         <MinVersion Minor="2" Valid="True"/>
-      </Item>
-      <Item>
-        <PackageName Value="IDEIntf"/>
-      </Item>
+      </Item2>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
